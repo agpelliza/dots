@@ -1,5 +1,7 @@
 require File.join(File.expand_path(File.dirname(__FILE__)),"helper")   
 require "#{LIB_DIR}/grid"
+require "#{LIB_DIR}/box"
+require "set"
   
 describe "A dots grid" do
   
@@ -10,5 +12,38 @@ describe "A dots grid" do
   it "should exist" do
     expect(@grid).to be_truthy
     expect(@grid).to be_an_instance_of(Dots::Grid)
+  end
+
+  it "should have one box for each edge on left side" do
+    10.times do |y|
+      expect(@grid[[0,y],[0,y+1]].length).to eq(1)
+    end
+  end
+  
+  it "should have one box for each edge on right side" do
+    10.times do |y|
+      expect(@grid[[10,y],[10,y+1]].length).to eq(1)
+    end
+  end
+  
+  it "should have one box for each edge on top side" do
+    10.times do |x|
+      expect(@grid[[x,10],[x+1,10]].length).to eq(1)
+    end
+  end
+  
+  it "should have one box for each edge on bottom side" do
+    10.times do |x|
+      expect(@grid[[x,0],[x+1,0]].length).to eq(1)
+    end
+  end
+  
+  it "should have two boxes for all inner edges" do
+    (1..8).each do |x|
+      (1..8).each do |y|
+        expect(@grid[[x,y],[x+1,y]].length).to eq(2)
+        expect(@grid[[x,y],[x,y+1]].length).to eq(2)
+      end
+    end
   end
 end
