@@ -76,3 +76,30 @@ describe "A completed dots box" do
     expect { @box.owner = "Joe" }.to raise_error(Dots::BoxOwnerAlreadySetError)
   end
 end
+
+def lines
+  { :north => Set[[0,1],[1,1]],
+    :south => Set[[0,0],[1,0]],
+    :east  => Set[[0,0],[0,1]],
+    :west  => Set[[1,0],[1,1]] }
+end
+
+describe "A positioned dots box at (0,0)" do
+  
+  require "set"
+        
+  before :each do
+    @box = Dots::Box[0,0]
+  end  
+  
+  it "should have generated line coordinate tuples by compass direction" do
+    expect(@box.lines).to eq(lines)
+  end
+  
+  lines.invert.merge(Set[[10,1],[10,2]] => false).each do |edge, dir|
+     
+    it "should give #{dir.inspect} for edge?(#{edge.inspect})" do
+       expect(@box.edge?(edge)).to eq(dir)
+    end
+  end
+end
