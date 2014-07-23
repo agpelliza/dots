@@ -20,5 +20,14 @@ describe "A dots box" do
     it "should have an #{dir} edge" do
       expect(@box.edges[dir]).to be_truthy
     end
+    
+    it "#{dir} edge should be :not_drawn by default" do
+      expect(@box.edges[dir]).to eq(:not_drawn)  
+    end   
+    
+    it "#{dir} edge should be :drawn when draw_edge(#{dir.inspect}) is called" do
+      @box.draw_edge(dir)
+      expect(@box.edges[dir]).to eq(:drawn)
+    end
   end
 end
