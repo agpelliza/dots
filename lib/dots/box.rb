@@ -17,6 +17,7 @@ module Dots
 
     def owner=(new_owner)
       raise BoxIncompleteError unless completed?
+      raise BoxOwnerAlreadySetError if @owner
       @owner = new_owner
     end
     
@@ -26,4 +27,5 @@ module Dots
   end 
 
   class BoxIncompleteError < StandardError; end
+  class BoxOwnerAlreadySetError < StandardError; end
 end

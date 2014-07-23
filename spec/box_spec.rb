@@ -70,4 +70,9 @@ describe "A completed dots box" do
     @box.owner = "Gregory"
     expect(@box.owner).to eq("Gregory")
   end
+
+  it "should not allow an owner to be set more than once" do
+    @box.owner = "Gregory"
+    expect { @box.owner = "Joe" }.to raise_error(Dots::BoxOwnerAlreadySetError)
+  end
 end
