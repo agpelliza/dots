@@ -11,4 +11,8 @@ describe "A dots box" do
     expect(@box).to be_truthy
     expect(@box).to be_an_instance_of(Dots::Box)
   end
+
+  it "should have 4 edges" do
+    expect(@box.edges.size).to eq(4)
+  end
 end
