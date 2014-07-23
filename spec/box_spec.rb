@@ -1,6 +1,10 @@
 require File.join(File.expand_path(File.dirname(__FILE__)),"helper")
 require "#{LIB_DIR}/box" 
 
+def directions 
+  [:north, :south, :east, :west]
+end
+
 describe "A dots box" do
 
   before :each do
@@ -16,7 +20,7 @@ describe "A dots box" do
     expect(@box.edges.size).to eq(4)
   end
 
-  [:north, :south, :east, :west].each do |dir|
+  directions.each do |dir|
     it "should have an #{dir} edge" do
       expect(@box.edges[dir]).to be_truthy
     end
@@ -30,19 +34,39 @@ describe "A dots box" do
       expect(@box.edges[dir]).to eq(:drawn)
     end
   end
+
+  it "should return nil for owner() by default" do
+    expect(@box.owner).to be_falsy
+  end
 end
 
-describe "A dots box owner" do
+describe "An incomplete dots box" do
  
   before :each do
-    @box = Dots::Box.new   
+    @box = Dots::Box.new
   end
   
-  it "should be nil by default" do
-    expect(@box.owner).to be_falsy
-  end 
+  it "should return false for completed?" do
+    expect(@box.completed?).to be false
+  end
   
-  it "should be settable via Box#owner=" do 
+  it "should not allow an owner to be set" do
+    expect { @box.owner = "Gregory" }.to raise_error(Dots::BoxIncompleteError)
+  end
+end
+
+describe "A completed dots box" do
+  
+  before :each do
+    @box = Dots::Box.new
+    directions.each { |dir| @box.draw_edge(dir) }
+  end
+  
+  it "should return true for completed?" do
+    expect(@box.completed?).to be true
+  end
+  
+  it "should allow an owner to be set" do
     @box.owner = "Gregory"
     expect(@box.owner).to eq("Gregory")
   end

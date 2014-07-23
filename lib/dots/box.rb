@@ -14,5 +14,16 @@ module Dots
     def draw_edge(dir)
       @edges[dir] = :drawn
     end
-  end
+
+    def owner=(new_owner)
+      raise BoxIncompleteError unless completed?
+      @owner = new_owner
+    end
+    
+    def completed?
+      @edges.all? { |dir, status| status == :drawn }
+    end
+  end 
+
+  class BoxIncompleteError < StandardError; end
 end
