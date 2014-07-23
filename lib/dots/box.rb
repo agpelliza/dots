@@ -9,7 +9,8 @@ module Dots
     end    
     
     attr_reader :edges
-    
+    attr_accessor :owner
+
     def draw_edge(dir)
       @edges[dir] = :drawn
     end

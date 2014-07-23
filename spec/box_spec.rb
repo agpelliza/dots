@@ -31,3 +31,19 @@ describe "A dots box" do
     end
   end
 end
+
+describe "A dots box owner" do
+ 
+  before :each do
+    @box = Dots::Box.new   
+  end
+  
+  it "should be nil by default" do
+    expect(@box.owner).to be_falsy
+  end 
+  
+  it "should be settable via Box#owner=" do 
+    @box.owner = "Gregory"
+    expect(@box.owner).to eq("Gregory")
+  end
+end
