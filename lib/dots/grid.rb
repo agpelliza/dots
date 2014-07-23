@@ -15,5 +15,21 @@ module Dots
         box.edge?(Set[*coords])
       end
     end
+
+    def connect(*coords)
+      edges = self[*coords]
+      raise InvalidEdgeError if edges.empty?
+      edges.each do |b|
+        b.draw_edge(b.edge?(Set[*coords]))
+      end
+    end
+    
+    def box_at(*coord)
+      @data.find do |box|
+        box.position.eql?(coord)
+      end
+    end
   end
+  
+  class InvalidEdgeError < StandardError; end
 end

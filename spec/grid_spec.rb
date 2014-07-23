@@ -46,4 +46,13 @@ describe "A dots grid" do
       end
     end
   end
+
+  it "should allow connecting adjacent dots" do
+    @grid.connect([0,0],[0,1])
+    expect(@grid.box_at(0,0).edges[:east]).to eq(:drawn)
+  end
+  
+  it "should throw an error when connecting non-adjacent dots" do
+    expect { @grid.connect([0,0],[0,5]) }.to raise_error(Dots::InvalidEdgeError)
+  end
 end
