@@ -15,4 +15,10 @@ describe "A dots box" do
   it "should have 4 edges" do
     expect(@box.edges.size).to eq(4)
   end
+
+  [:north, :south, :east, :west].each do |dir|
+    it "should have an #{dir} edge" do
+      expect(@box.edges[dir]).to be_truthy
+    end
+  end
 end
