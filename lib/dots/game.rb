@@ -5,9 +5,11 @@ module Dots
     
     def start
       @players = interface.get_players
-      @turn = 0 
+      @turn = 0
+      @score = Hash.new(0)
       rows, cols = interface.get_grid_size
       @grid = Dots::Grid.new(rows, cols)
+      interface.update_display(self)
     end
     
     def current_player
@@ -20,8 +22,13 @@ module Dots
       if completed.empty?
         @turn += 1 
       else
-        completed.size
+        @score[current_player] += completed.size
       end
+      interface.update_display(self)
+    end
+
+    def score(player)
+      @score[player]
     end
   end
 end
