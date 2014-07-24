@@ -1,1 +1,2 @@
 rspec -v 3.0.0
+highline -v 1.6.21

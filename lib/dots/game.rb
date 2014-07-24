@@ -23,6 +23,7 @@ module Dots
         @turn += 1 
       else
         @score[current_player] += completed.size
+        completed.each { |b| b.owner = current_player }
       end
       interface.update_display(self)
     end

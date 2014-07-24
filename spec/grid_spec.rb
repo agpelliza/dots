@@ -64,19 +64,28 @@ describe "A drawn on dots grid" do
     @grid.connect [1,0], [0,0]
   end
   
-  it "should notify Game object when box is completed on a connect" do
-    expect(Dots::Game).to receive(:filled_boxes).with(Set[@grid.box_at(0,0)]).once
-    @grid.connect [1,1], [1,0]
+  it "should return an empty set when connect() does not complete a box" do
+    expect(@grid.connect [5,5], [5,4]).to eq(Set[])
   end
   
-  it "should notify Game object when two boxes are completed on a connect" do
+  it "should return a set with a box when connect() completes one box" do
+    result = @grid.connect [1,1], [1,0]
+    expect(result.size).to eq(1)
+    result.each do |b|
+      expect(b).to be_an_instance_of(Dots::Box)
+    end
+  end
+  
+  it "should return a set of two boxes when connect() completes two boxes" do
     @grid.connect [1,0], [2,0]
     @grid.connect [2,0], [2,1]
     @grid.connect [2,1], [1,1]
     
-    expect(Dots::Game).to receive(:filled_boxes).
-               with(Set[@grid.box_at(0,0),@grid.box_at(1,0)]).once
-               
-    @grid.connect [1,1], [1,0]
+    result = @grid.connect [1,1], [1,0]
+    
+    expect(result.size).to eq(2)
+    result.each do |b|
+      expect(b).to be_an_instance_of(Dots::Box)
+    end
   end
 end

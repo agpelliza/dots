@@ -1,5 +1,7 @@
 module Dots
   class Grid
+    require "set"
+
     def initialize(rows,cols)
       @rows, @cols = rows, cols
       @data = Set[]
@@ -9,6 +11,8 @@ module Dots
           end
        end
     end
+
+    attr_reader :rows, :cols
     
     def [](*coords)
       @data.select do |box|
@@ -24,7 +28,7 @@ module Dots
         b.draw_edge(b.edge?(Set[*coords]))
         completed_boxes << b if b.completed?
       end
-      Game.filled_boxes(completed_boxes) unless completed_boxes.empty?
+      return completed_boxes
     end
     
     def box_at(*coord)

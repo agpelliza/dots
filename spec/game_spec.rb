@@ -22,11 +22,13 @@ module GameStateMocks
   def stub_move(edge, boxes_completed = 0)
     @game.interface = double("UI")
     box_set = double("box set")
+
     if boxes_completed.zero?
       expect(box_set).to receive(:empty?).and_return(true)
     else
       expect(box_set).to receive(:empty?).and_return(false)
       expect(box_set).to receive(:size).and_return(boxes_completed)
+      expect(box_set).to receive(:each)
     end
     expect(@game.interface).to receive(:get_move).and_return(edge)
     expect(@game.interface).to receive(:update_display).with(an_instance_of(Dots::Game))
