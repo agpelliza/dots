@@ -17,11 +17,14 @@ module Dots
     end
 
     def connect(*coords)
-      edges = self[*coords]
-      raise InvalidEdgeError if edges.empty?
-      edges.each do |b|
+      boxes = self[*coords]
+      completed_boxes = Set[]
+      raise InvalidEdgeError if boxes.empty?
+      boxes.each do |b|
         b.draw_edge(b.edge?(Set[*coords]))
+        completed_boxes << b if b.completed?
       end
+      Game.filled_boxes(completed_boxes) unless completed_boxes.empty?
     end
     
     def box_at(*coord)

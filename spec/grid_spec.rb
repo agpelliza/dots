@@ -1,6 +1,4 @@
 require File.join(File.expand_path(File.dirname(__FILE__)),"helper")   
-require "#{LIB_DIR}/grid"
-require "#{LIB_DIR}/box"
 require "set"
   
 describe "A dots grid" do
@@ -54,5 +52,31 @@ describe "A dots grid" do
   
   it "should throw an error when connecting non-adjacent dots" do
     expect { @grid.connect([0,0],[0,5]) }.to raise_error(Dots::InvalidEdgeError)
+  end
+end
+
+describe "A drawn on dots grid" do
+ 
+  before :each do
+    @grid = Dots::Grid.new(10,10)
+    @grid.connect [0,0], [0,1]
+    @grid.connect [0,1], [1,1]
+    @grid.connect [1,0], [0,0]
+  end
+  
+  it "should notify Game object when box is completed on a connect" do
+    expect(Dots::Game).to receive(:filled_boxes).with(Set[@grid.box_at(0,0)]).once
+    @grid.connect [1,1], [1,0]
+  end
+  
+  it "should notify Game object when two boxes are completed on a connect" do
+    @grid.connect [1,0], [2,0]
+    @grid.connect [2,0], [2,1]
+    @grid.connect [2,1], [1,1]
+    
+    expect(Dots::Game).to receive(:filled_boxes).
+               with(Set[@grid.box_at(0,0),@grid.box_at(1,0)]).once
+               
+    @grid.connect [1,1], [1,0]
   end
 end
