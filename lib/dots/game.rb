@@ -11,7 +11,17 @@ module Dots
     end
     
     def current_player
-      @players[@turn]
+      @players[@turn % @players.length]
+    end
+
+    def move
+      coords = interface.get_move
+      completed = @grid.connect(*coords)
+      if completed.empty?
+        @turn += 1 
+      else
+        completed.size
+      end
     end
   end
 end
